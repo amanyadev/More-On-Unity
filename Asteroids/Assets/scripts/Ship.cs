@@ -13,8 +13,8 @@ public class Ship : MonoBehaviour
     const float ThrustForce = 10;
     const float RotateDegreesPerSecond = 180;
 
-    // screen wrapping support
-    
+    [SerializeField]
+    GameObject prefabBullet;
 
 	/// <summary>
 	/// Use this for initialization
@@ -45,6 +45,13 @@ public class Ship : MonoBehaviour
             float zRotation = transform.eulerAngles.z * Mathf.Deg2Rad;
             thrustDirection.x = Mathf.Cos(zRotation);
             thrustDirection.y = Mathf.Sin(zRotation);
+        }
+
+        //Fire bullets.
+        
+        if(Input.GetKeyDown(KeyCode.LeftControl)){
+        GameObject bullet = Instantiate(prefabBullet,gameObject.transform.position,Quaternion.identity);
+        bullet.GetComponent<Bullet>().ApplyForce(thrustDirection);
         }
 	}
 

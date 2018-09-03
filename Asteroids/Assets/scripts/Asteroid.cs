@@ -5,10 +5,12 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour {
 	[SerializeField]
 	Sprite[] spriteList = new Sprite[3];
+	[SerializeField]
+	float MinImpulseForce = 3f;
+	[SerializeField]
+	float MaxImpulseForce = 5f;
 	public void Initialize(Direction direction, Vector3 location){
 	 //Random force to be applied
-		const float MinImpulseForce = 3f;
-		const float MaxImpulseForce = 5f;
 		//at a given angle
 		float angle = 0;
 		if(direction == Direction.Up){
@@ -36,6 +38,16 @@ public class Asteroid : MonoBehaviour {
 		int spriteNumber = Random.Range(0,3);
 		spriterenderer.sprite = spriteList[spriteNumber];
 	}
-
+/// <summary>
+/// Sent when an incoming collider makes contact with this object's
+/// collider (2D physics only).
+/// </summary>
+/// <param name="other">The Collision2D data associated with this collision.</param>
+void OnCollisionEnter2D(Collision2D other)
+{
+	if(other.gameObject.tag=="Bullet"){
+		Destroy(gameObject);
+	}
+}
 	
 }
