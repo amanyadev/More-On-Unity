@@ -15,7 +15,8 @@ public class Ship : MonoBehaviour
 
     [SerializeField]
     GameObject prefabBullet;
-
+    [SerializeField]
+    GameObject HUD;
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
@@ -52,6 +53,7 @@ public class Ship : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftControl)){
         GameObject bullet = Instantiate(prefabBullet,gameObject.transform.position,Quaternion.identity);
         bullet.GetComponent<Bullet>().ApplyForce(thrustDirection);
+        AudioManager.Play(AudioClipName.PlayerShot);
         }
 	}
 
@@ -79,7 +81,9 @@ public class Ship : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.tag=="Asteroid"){
+            AudioManager.Play(AudioClipName.PlayerDeath);
             Destroy(gameObject);
+            HUD.GetComponent<HUD>().StopGameTimer();
         }
     }
 }
